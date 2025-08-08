@@ -1,60 +1,132 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Untuk Alya</title>
   <style>
+    /* Animasi gradien background */
+    @keyframes gradientMove {
+      0% {
+        background-position: 0% 50%;
+      }
+      50% {
+        background-position: 100% 50%;
+      }
+      100% {
+        background-position: 0% 50%;
+      }
+    }
+
     body {
-      background: linear-gradient(to bottom right, #ffdde1, #ee9ca7);
-      font-family: 'Segoe UI', sans-serif;
+      margin: 0;
+      height: 100vh;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      color: #fff;
       display: flex;
       justify-content: center;
       align-items: center;
-      height: 100vh;
-      text-align: center;
-      color: #fff;
+      overflow: hidden;
+      background: linear-gradient(-45deg, #ffdde1, #ee9ca7, #ffdde1, #ee9ca7);
+      background-size: 400% 400%;
+      animation: gradientMove 30s ease infinite;
+      position: relative;
       padding: 20px;
     }
+
     .box {
-      background: rgba(255, 255, 255, 0.1);
+      background: rgba(255, 255, 255, 0.15);
       border-radius: 20px;
       padding: 30px;
-      box-shadow: 0 4px 30px rgba(0,0,0,0.1);
+      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
       max-width: 500px;
+      text-align: center;
+      position: relative;
+      z-index: 10;
     }
+
     #text {
-      font-size: 1.2em;
+      font-size: 1.3em;
       line-height: 1.6;
       white-space: pre-wrap;
       border-right: 3px solid #fff;
       overflow: hidden;
+      animation: pulse 2.5s ease-in-out infinite;
     }
-    audio {
-      display: none; /* Player audio disembunyikan */
+
+    @keyframes pulse {
+      0%, 100% {
+        opacity: 1;
+        border-color: #fff;
+      }
+      50% {
+        opacity: 0.7;
+        border-color: #f9a8d4;
+      }
     }
+
+    /* Bintang */
+    .star {
+      position: absolute;
+      background: white;
+      border-radius: 50%;
+      opacity: 0.8;
+      animation-name: twinkle;
+      animation-duration: 3s;
+      animation-iteration-count: infinite;
+      animation-timing-function: ease-in-out;
+    }
+
+    @keyframes twinkle {
+      0%, 100% { opacity: 0.8; }
+      50% { opacity: 0.3; }
+    }
+
+    /* Tombol musik */
+    #musicControl {
+      margin-top: 20px;
+      background: rgba(255, 255, 255, 0.3);
+      border: none;
+      padding: 12px 25px;
+      border-radius: 30px;
+      color: #fff;
+      font-size: 1em;
+      cursor: pointer;
+      transition: background 0.3s ease;
+      box-shadow: 0 0 8px rgba(255, 255, 255, 0.5);
+    }
+
+    #musicControl:hover {
+      background: rgba(255, 255, 255, 0.5);
+      color: #ee9ca7;
+      box-shadow: 0 0 15px rgba(255, 255, 255, 0.8);
+    }
+
   </style>
 </head>
 <body>
-  <!-- Musik otomatis dengan fade in -->
   <audio id="bgMusic" loop>
-    <source src="Taylor Swift - Message In A Bottle (Taylor's Version) (From The Vault) (Lyric Video) (320).mp3" type="audio/mpeg">
+    <source src="Taylor Swift - Message In A Bottle (Taylor's Version) (From The Vault) (Lyric Video) (320).mp3" type="audio/mpeg" />
+    Your browser does not support the audio element.
   </audio>
 
   <div class="box">
     <div id="text"></div>
+    <button id="musicControl">Pause Musik</button>
   </div>
 
   <script>
+    // Pesan untuk ketik
     const messages = [
       "Hai Alya… 😊",
       "Aku cuma mau bilang sesuatu yang udah lama ada di hati aku.",
-      "Terima kasih udah mau nerima aku apa adanya.",
-      "Kamu selalu ada di saat aku senang, maupun saat aku lagi jatuh.",
-      "Aku ngerasa beruntung banget bisa kenal sama kamu.",
-      "Setiap hari kamu bikin aku merasa dihargai dan disayang.",
+      "Makasihhh udah mau nerima akuu apa adanyaa.",
+      "Kamu selalu ada di waktu akuu senang, atau waktu aku lagi sedihh.",
+      "Aku ngerasa beruntung banget bisa dekett sama kamuuu all.",
+      "Setiap hari kamu bikin aku merasa dihargai dan disayang bangett.",
       "Aku harap kita bisa terus bareng, saling jaga, dan saling sayang.",
-      "Kamu istimewa banget buat aku ❤️"
+      "Kamu istimewa banget buat aku. "
+      "i love youu so muchh❤❤
     ];
 
     let index = 0;
@@ -76,25 +148,61 @@
       }
     }
 
-    // Jalankan efek ketik
+    // Mulai ketik
     typeMessage();
 
-    // Mainkan musik dengan fade in
+    // Musik dan tombol kontrol
     const music = document.getElementById("bgMusic");
-    music.volume = 0;
-    music.play().then(() => {
-      let vol = 0;
-      const fade = setInterval(() => {
-        if (vol < 1) {
-          vol += 0.01; // kecepatan naik volume
-          music.volume = vol;
-        } else {
-          clearInterval(fade);
-        }
-      }, 100); // setiap 0.1 detik
-    }).catch(err => {
-      console.log("Musik perlu diaktifkan setelah interaksi user:", err);
+    const musicControl = document.getElementById("musicControl");
+
+    // Fungsi fade in musik
+    function fadeInMusic() {
+      music.volume = 0;
+      music.play().then(() => {
+        let vol = 0;
+        const fade = setInterval(() => {
+          if (vol < 1) {
+            vol += 0.01;
+            music.volume = vol;
+          } else {
+            clearInterval(fade);
+          }
+        }, 100);
+      }).catch(err => {
+        console.log("Perlu interaksi user untuk play musik:", err);
+      });
+    }
+
+    fadeInMusic();
+
+    // Toggle play/pause musik
+    musicControl.addEventListener("click", () => {
+      if (music.paused) {
+        fadeInMusic();
+        musicControl.textContent = "Pause Musik";
+      } else {
+        music.pause();
+        musicControl.textContent = "Mainkan Musik";
+      }
     });
+
+    // Generate bintang secara random
+    function createStars(num) {
+      for (let i = 0; i < num; i++) {
+        const star = document.createElement("div");
+        star.classList.add("star");
+        const size = Math.random() * 3 + 1 + "px";
+        star.style.width = size;
+        star.style.height = size;
+        star.style.top = Math.random() * 100 + "%";
+        star.style.left = Math.random() * 100 + "%";
+        star.style.animationDuration = (Math.random() * 3 + 2) + "s";
+        star.style.animationDelay = (Math.random() * 5) + "s";
+        document.body.appendChild(star);
+      }
+    }
+
+    createStars(50); // buat 50 bintang
   </script>
 </body>
 </html>
