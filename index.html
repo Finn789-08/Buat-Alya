@@ -1,32 +1,100 @@
 <!DOCTYPE html>
-<html>
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width">
-    <title>replit</title>
-    <link href="style.css" rel="stylesheet" type="text/css" />
-  </head>
-  <script>     
-    alert ("nanti kamu tinggal pencet close/tutup yaa")
-   alert ("hai! How's ur day?")
-    alert ("sorry yaa, kalau aku cuma bisa ngomong via web ini ")
-    alert ("bacaa yaaa...")
-    alert ("aku cuma mau bilang semangat yaa")
-    alert ("makasih udah mau denger keluh kesah aku")
-    alert ("disat aku down, disaat aku seneng")
-    alert ("kamuu selalu ada disisi aku")
-  alert ("aku selalu ngerasain hal yang beda waktu sama kamu")  
-   alert ("aku harap kamu bisa lebih dari temen di hubungan kitaa,gimana? ")        
-  alert ("kamu mau kann? ")
-    alert ("kalau mau kamu bales di chat aja yaa")
-    alert ("semoga aja kamu mau sama akuu")
-    alert ("kita udah deket,masa kamu ga mau")
-    alert (" mau yaa😊 ")
-    alert (" pokoknya harus mau ")
-    alert (" agak maksa ysy")
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Untuk Alya</title>
+  <style>
+    body {
+      background: linear-gradient(to bottom right, #ffdde1, #ee9ca7);
+      font-family: 'Segoe UI', sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      text-align: center;
+      color: #fff;
+      padding: 20px;
+    }
+    .box {
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 20px;
+      padding: 30px;
+      box-shadow: 0 4px 30px rgba(0,0,0,0.1);
+      max-width: 500px;
+    }
+    #text {
+      font-size: 1.2em;
+      line-height: 1.6;
+      white-space: pre-wrap;
+      border-right: 3px solid #fff;
+      overflow: hidden;
+    }
+    audio {
+      display: none; /* Player audio disembunyikan */
+    }
+  </style>
+</head>
+<body>
+  <!-- Musik otomatis dengan fade in -->
+  <audio id="bgMusic" loop>
+    <source src="Taylor Swift - Message In A Bottle (Taylor's Version) (From The Vault) (Lyric Video) (320).mp3" type="audio/mpeg">
+  </audio>
+
+  <div class="box">
+    <div id="text"></div>
+  </div>
+
+  <script>
+    const messages = [
+      "Hai Alya… 😊",
+      "Aku cuma mau bilang sesuatu yang udah lama ada di hati aku.",
+      "Terima kasih udah mau nerima aku apa adanya.",
+      "Kamu selalu ada di saat aku senang, maupun saat aku lagi jatuh.",
+      "Aku ngerasa beruntung banget bisa kenal sama kamu.",
+      "Setiap hari kamu bikin aku merasa dihargai dan disayang.",
+      "Aku harap kita bisa terus bareng, saling jaga, dan saling sayang.",
+      "Kamu istimewa banget buat aku ❤️"
+    ];
+
+    let index = 0;
+    let charIndex = 0;
+    const textElement = document.getElementById("text");
+
+    function typeMessage() {
+      if (charIndex < messages[index].length) {
+        textElement.textContent += messages[index].charAt(charIndex);
+        charIndex++;
+        setTimeout(typeMessage, 50);
+      } else {
+        textElement.textContent += "\n\n";
+        index++;
+        charIndex = 0;
+        if (index < messages.length) {
+          setTimeout(typeMessage, 500);
+        }
+      }
+    }
+
+    // Jalankan efek ketik
+    typeMessage();
+
+    // Mainkan musik dengan fade in
+    const music = document.getElementById("bgMusic");
+    music.volume = 0;
+    music.play().then(() => {
+      let vol = 0;
+      const fade = setInterval(() => {
+        if (vol < 1) {
+          vol += 0.01; // kecepatan naik volume
+          music.volume = vol;
+        } else {
+          clearInterval(fade);
+        }
+      }, 100); // setiap 0.1 detik
+    }).catch(err => {
+      console.log("Musik perlu diaktifkan setelah interaksi user:", err);
+    });
   </script>
-  <body>
-    Udah ya sekian... Dibaca ya jangan asal pencet oke/tutup..hehe...bales di chat wa aja
-    <script src="script.js"></script>
-  </body>
+</body>
 </html>
